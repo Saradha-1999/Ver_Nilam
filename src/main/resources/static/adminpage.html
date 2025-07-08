@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>வேர் நிலம்</title>
+  <link rel="icon" type="image/png" href="images/ver_nilam_logo.png">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/fevicon.png" type="image/gif">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .table thead th {
+      white-space: nowrap;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body class="main-layout inner_page blog_page">
+   <div class="full_bg">
+      <!-- header -->
+      <header class="header-area" style="background-color: #5E7A2B; height: auto; color: white;">
+         <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between flex-wrap px-3 py-2">
+               <!-- Logo -->
+               <div class="d-flex align-items-center">
+                  <img src="images/ver_nilam_logo.png" alt="Logo" style="width: 100px; border-radius: 10%;">
+               </div>
+               
+               <!-- Heading -->
+               <div class="text-center flex-grow-1">
+                  <h1 class="font-weight-bold text-uppercase mb-0" style="color: white;">Received Orders</h1>
+               </div>
+            </div>
+         </div>
+      </header>
+      <!-- end header -->
+   </div>
+
+
+
+  <!-- Main Content -->
+  <main class="container my-4">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover align-middle text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>SNo</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Message</th>
+            <th>Product Name</th>
+            <th>Order Quantity (KG)</th>
+            <th>Expected Delivery Date</th>
+          </tr>
+        </thead>
+        <tbody id="contactTableBody">
+          <!-- Dynamic data -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-light py-4 mt-auto">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-3 text-center text-md-start mb-3 mb-md-0">
+          <a href="index.html">
+            <img src="images/ver_nilam_logo.png" alt="Logo" class="img-fluid" style="max-width: 100px; border-radius: 10%;">
+          </a>
+        </div>
+
+        <div class="col-md-6 text-center text-md-start">
+         
+          <ul class="list-unstyled d-flex flex-wrap justify-content-center justify-content-md-start gap-3 mb-0">
+            <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+            <li><a href="about.html" class="text-light text-decoration-none">About Us</a></li>
+            <li><a href="service.html" class="text-light text-decoration-none">Service</a></li>
+            <li><a href="Testimonial.html" class="text-light text-decoration-none">Testimonial</a></li>
+            <li><a href="blog.html" class="text-light text-decoration-none">Blog</a></li>
+            <li><a href="contact.html" class="text-light text-decoration-none">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-3 text-center text-md-end mt-3 mt-md-0">
+          <div class="d-flex justify-content-center justify-content-md-end gap-3">
+            <a href="#" class="text-light"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="text-light"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="text-light"><i class="fa fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col text-center small text-secondary">
+          © 2025 All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Table Data Script -->
+  <script>
+    fetch('/api/contacts')
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.getElementById('contactTableBody');
+        tableBody.innerHTML = '';
+
+        data.forEach((contact, index) => {
+          const row = `
+            <tr>
+              <td>${index + 1}</td>
+              <td>${contact.name}</td>
+              <td>${contact.phoneNumber}</td>
+              <td>${contact.message}</td>
+              <td>${contact.productName}</td>
+              <td>${contact.orderQuantity}</td>
+              <td>${contact.expectedDeliveryDate}</td>
+            </tr>
+          `;
+          tableBody.innerHTML += row;
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching contacts:', error);
+        document.getElementById('contactTableBody').innerHTML = `
+          <tr><td colspan="7" class="text-danger text-center">Error loading data</td></tr>
+        `;
+      });
+  </script>
+</body>
+</html>
