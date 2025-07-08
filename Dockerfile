@@ -1,14 +1,12 @@
-# Use OpenJDK image
-FROM openjdk:17-jdk-slim
-
-# Set working directory
+# ---- Stage 1: Build the app ----
+FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the JAR file
-COPY target/Ver_nilam-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose Spring Boot port
+# ---- Stage 2: Run the app ----
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/Ver_nilam-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Run the jar file
 ENTRYPOINT ["java", "-jar", "app.jar"]
