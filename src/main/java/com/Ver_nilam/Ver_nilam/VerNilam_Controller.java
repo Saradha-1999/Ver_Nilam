@@ -11,10 +11,10 @@ public class VerNilam_Controller {
     private VerNilam_Service verNilamService;
 
     // Redirect root URL to contact.html
-    @GetMapping("/")
-    public String homeRedirect() {
-        return "redirect:/contact.html";
-    }
+    // @GetMapping("/")
+    // public String homeRedirect() {
+    //     return "redirect:/contact.html";
+    // }
 
     // Process contact form submission
     @PostMapping("/submitContact")
